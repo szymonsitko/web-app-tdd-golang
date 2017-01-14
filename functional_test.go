@@ -2,8 +2,8 @@ package main
 
 import (
 	"log"
-	"testing"
 	"strings"
+	"testing"
 
 	"github.com/tebeka/selenium"
 )
@@ -34,10 +34,10 @@ func TestFunctionalMainPage(t *testing.T) {
 	// Test on content passed into document body with template
 	// Searching for: h1 tag
 	var elem selenium.WebElement
-    elem, _ = webDriver.FindElement(selenium.ByTagName, "h1")
-    header, _ := elem.Text()
-    if strings.Contains(header, "Log-in") != true {
-    	webDriver.Close()
-    	log.Fatalf("Context not found in document body")
-    }
+	elem, _ = webDriver.FindElement(selenium.ByTagName, "h1")
+	header, _ := elem.Text()
+	if strings.Contains(header, "Log-in") != true {
+		webDriver.Close()
+		log.Fatalf("Context not found in document body")
+	}
 }
