@@ -1,0 +1,18 @@
+Project outline
+---------------
+
+Golang web-app with db connection (MySQL database)
+
+Milestones:
+
+1. Tests with selenium (functional) and unittest (standard library)
+ready to fire & fail initially
+2. Establish data structure and database connection
+3. Design views and plugin templates
+4. Set-up static files & test static files serving
+5. Implement login module 
+6. Design & test RESTful APIs
+
+Bonus point:
+
+7. Deploy in a Docker container (configured with Ansible)
