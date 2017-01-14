@@ -3,12 +3,14 @@ package main
 import (
 	"log"
 	"testing"
+	"strings"
 
 	"github.com/tebeka/selenium"
 )
 
 func TestFunctionalMainPage(t *testing.T) {
 	// Initialize functional test with selenium
+
 	var webDriver selenium.WebDriver
 	var err error
 	caps := selenium.Capabilities(map[string]interface{}{"browserName": "chrome"})
@@ -23,17 +25,19 @@ func TestFunctionalMainPage(t *testing.T) {
 		log.Fatalf("Failed to load page: %s\n", err)
 	}
 	// check title functionally
-	if page_title, err := webDriver.Title(); err != nil {
-		webDriver.Quit()
-		log.Fatalf("Cannot obtain page title %s", err)
-	} else if page_title != "Welcome to The Ticket Booker!" {
+	// Searching for: title
+	page_title, _ := webDriver.Title()
+	if page_title != "Welcome to The Ticket Booker!" {
 		webDriver.Close()
 		log.Fatalf("Title not found")
 	}
-	// var elem selenium.WebElement
-    _, err = webDriver.FindElement(selenium.ByTagName, "h1")
-    if err != nil {
+	// Test on content passed into document body with template
+	// Searching for: h1 tag
+	var elem selenium.WebElement
+    elem, _ = webDriver.FindElement(selenium.ByTagName, "h1")
+    header, _ := elem.Text()
+    if strings.Contains(header, "Log-in") != true {
     	webDriver.Close()
-        log.Fatalf("Failed to find element: %s\n", err)
+    	log.Fatalf("Context not found in document body")
     }
 }

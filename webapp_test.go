@@ -11,5 +11,7 @@ func TestHttpResponseAndContent(t *testing.T) {
 	resp, err := http.Get("http://localhost:8000")
 	if err != nil {
 		log.Fatalf("Cannot read response from server %s", err)
+	} else {
+		log.Printf("Status: %s", resp.Status)
 	}
 }
