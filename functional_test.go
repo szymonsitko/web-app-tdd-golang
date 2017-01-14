@@ -18,7 +18,7 @@ func TestFunctionalMainPage(t *testing.T) {
 	defer webDriver.Quit()
 	// Setup the main page with port specified
 	// in this case job is done locally at the first
-	err = webDriver.Get("https://localhost:8000")
+	err = webDriver.Get("http://localhost:8000")
 	if err != nil {
 		log.Fatalf("Failed to load page: %s\n", err)
 	}
@@ -30,5 +30,10 @@ func TestFunctionalMainPage(t *testing.T) {
 		webDriver.Close()
 		log.Fatalf("Title not found")
 	}
-
+	// var elem selenium.WebElement
+    _, err = webDriver.FindElement(selenium.ByTagName, "h1")
+    if err != nil {
+    	webDriver.Close()
+        log.Fatalf("Failed to find element: %s\n", err)
+    }
 }
