@@ -34,7 +34,7 @@ func TestFunctionalMainPage(t *testing.T) {
 	// Test on content passed into document body with template
 	// Searching for: h1 tag
 	var elem selenium.WebElement
-	elem, _ = webDriver.FindElement(selenium.ByTagName, "h1")
+	elem, _ = webDriver.FindElement(selenium.ByTagName, "h2")
 	header, _ := elem.Text()
 	if strings.Contains(header, "Log-in") != true {
 		webDriver.Close()
