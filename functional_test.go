@@ -40,4 +40,13 @@ func TestFunctionalMainPage(t *testing.T) {
 		webDriver.Close()
 		log.Fatalf("Context not found in document body")
 	}
+	// Test user login / registration form functionally
+	elem, err = webDriver.FindElement(selenium.ByID, "input-box-username")
+	if err != nil {
+		log.Print("error")
+	}
+	elem.SendKeys("example")
+	elem, _ = webDriver.FindElement(selenium.ByID, "input-box-password")
+	elem.SendKeys("mypassword")
+	elem, _ = webDriver.FindElement(selenium.ByCSSSelector, "#submit-button")
 }

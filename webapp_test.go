@@ -8,17 +8,26 @@ import (
 	"testing"
 )
 
-func TestHttpResponseAndContent(t *testing.T) {
-	// Testing response on 'main' page, '/' url
-	resp, err := http.Get("http://localhost:8000")
+func GetHttp(url string) *http.Response {
+	resp, err := http.Get(url)
 	if err != nil {
 		log.Fatalf("Cannot read response from server %s", err)
-	} else {
-		log.Printf("Status: %s", resp.Status)
 	}
-	defer resp.Body.Close()
-	// Get content from http client
-	htmlData, _ := ioutil.ReadAll(resp.Body)
+	return resp
+}
+
+var http_response = GetHttp("http://localhost:8000")
+
+func TestHttpResponse(t *testing.T) {
+	if http_response.Status == "200 OK" {
+		log.Printf("Status: %s\n", http_response.Status)
+	} else {
+		log.Fatalf("Response status: ", http_response.Status)
+	}
+}
+
+func TestContentFromResponse(t *testing.T) {
+	htmlData, _ := ioutil.ReadAll(http_response.Body)
 	string_response := string(htmlData)
 	if strings.Contains(string_response, "Ticket booker") != true {
 		log.Fatalf("Content not found in page body")

@@ -29,6 +29,7 @@ func IndexView(w http.ResponseWriter, r *http.Request) {
 		log.Printf("Error encountered: %s", err)
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 	}
+	log.Println(r.URL.Path)
 }
 
 
@@ -36,4 +37,5 @@ func main() {
 	router := mux.NewRouter()
 	router.HandleFunc("/", IndexView)
 	http.ListenAndServe(":8000", router)
+	log.Print("Http response: ", router)
 }

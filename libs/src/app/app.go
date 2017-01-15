@@ -12,18 +12,22 @@ type pageData struct {
 	Content string
 }
 
+func init() {
+	tpl = template.Must(template.ParseGlob("templates/*.gohtml"))
+}
+
+var tpl *template.Template
+
 func IndexView(w http.ResponseWriter, r *http.Request) {
 	rendered_data := pageData{
 		Title: "Welcome to The Ticket Booker!",
 		Content: "Log-in to create a new booking!",
 	}
-	dom := "<html><title>{{.Title}}</title><body><h1>Ticket booker</h1><br><h2>{{.Content}}</h2></body>"
-
 	w.Header().Add("Content Type", "text/html")
-	tmpl, err := template.New("main").Parse(dom)
-	log.Printf(r.URL.Path)
-	if err == nil {
-		tmpl.Execute(w, rendered_data)
+	err := tpl.ExecuteTemplate(w, "main.gohtml", rendered_data)
+	if err != nil {
+		log.Printf("Error encountered: %s", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 	}
 }
 
