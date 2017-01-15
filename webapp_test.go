@@ -18,7 +18,7 @@ func GetHttp(url string) *http.Response {
 	return resp
 }
 
-var http_response = GetHttp("http://localhost:8000")
+var http_response = GetHttp("http://localhost:8000/details")
 
 func TestHttpResponse(t *testing.T) {
 	if http_response.Status == "200 OK" {
@@ -28,18 +28,28 @@ func TestHttpResponse(t *testing.T) {
 	}
 }
 
-func TestContentFromResponse(t *testing.T) {
-	htmlData, _ := ioutil.ReadAll(http_response.Body)
-	string_response := string(htmlData)
-	if strings.Contains(string_response, "main page") != true {
-		log.Fatalf("Content not found in page body")
-	}
-}
-
-func TestDatabaseConnectionAndExecution(t *testing.T) {
+func TestDatabaseInsertion(t *testing.T) {
 	db, err := sql.Open("mysql", "simon:irekdudek@tcp/web_go")
 	if err != nil {
 		log.Fatalf("Error db connection: %s", err)
 	}
-	defer db.Close()
+	// Database check for results
+	var db_user string
+	_ = db.QueryRow("SELECT username FROM users WHERE email=?;", "example@dot.com").Scan(&db_user)
+	if db_user != "example" {
+		log.Print("User not inserted into database\n")
+	}
+	// check for http response from details subpage
+	htmlData, _ := ioutil.ReadAll(http_response.Body)
+	string_response := string(htmlData)
+	if strings.Contains(string_response, "User: example") != true {
+		log.Print("Content not found in page body")
+	}
+	// Database cleanup
+	_, err = db.Exec("DELETE FROM users;")
+	err = db.Close()
+	if err != nil {
+		log.Println("Error closing database %s", err)
+	}
 }
+

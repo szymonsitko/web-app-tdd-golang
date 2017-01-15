@@ -51,4 +51,14 @@ func TestFunctionalMainPage(t *testing.T) {
 	elem.SendKeys("example@dot.com")
 	elem, _ = webDriver.FindElement(selenium.ByCSSSelector, "#submit-button")
 	elem.Click()
+	// Check if user reached details page & bo back to the main page
+	elem, _ = webDriver.FindElement(selenium.ByID, "user-details")
+	content, _ := elem.Text()
+	if strings.Contains(content, "User bookings details for User: example") != true {
+		webDriver.Close()
+		log.Fatalf("Content for user details page not found.")
+	}
+	// send user back to main page (with the choice prompt)
+	elem, _  = webDriver.FindElement(selenium.ByTagName, "a")
+	elem.Click()
 }
