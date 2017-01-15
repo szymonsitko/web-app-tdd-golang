@@ -24,14 +24,14 @@ func TestHttpResponse(t *testing.T) {
 	if http_response.Status == "200 OK" {
 		log.Printf("Status: %s\n", http_response.Status)
 	} else {
-		log.Fatalf("Response status: ", http_response.Status)
+		log.Fatalf("Response status: %s", http_response.Status)
 	}
 }
 
 func TestContentFromResponse(t *testing.T) {
 	htmlData, _ := ioutil.ReadAll(http_response.Body)
 	string_response := string(htmlData)
-	if strings.Contains(string_response, "Ticket booker") != true {
+	if strings.Contains(string_response, "main page") != true {
 		log.Fatalf("Content not found in page body")
 	}
 }

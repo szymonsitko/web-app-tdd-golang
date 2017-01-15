@@ -24,6 +24,9 @@ func TestFunctionalMainPage(t *testing.T) {
 	if err != nil {
 		log.Fatalf("Failed to load page: %s\n", err)
 	}
+	var elem selenium.WebElement
+	elem, _ = webDriver.FindElement(selenium.ByID, "register-page")
+	elem.Click()
 	// check title functionally
 	// Searching for: title
 	page_title, _ := webDriver.Title()
@@ -33,7 +36,6 @@ func TestFunctionalMainPage(t *testing.T) {
 	}
 	// Test on content passed into document body with template
 	// Searching for: h1 tag
-	var elem selenium.WebElement
 	elem, _ = webDriver.FindElement(selenium.ByTagName, "h2")
 	header, _ := elem.Text()
 	if strings.Contains(header, "Log-in") != true {
@@ -41,12 +43,12 @@ func TestFunctionalMainPage(t *testing.T) {
 		log.Fatalf("Context not found in document body")
 	}
 	// Test user login / registration form functionally
-	elem, err = webDriver.FindElement(selenium.ByID, "input-box-username")
-	if err != nil {
-		log.Print("error")
-	}
+	elem, _ = webDriver.FindElement(selenium.ByID, "input-box-username")
 	elem.SendKeys("example")
 	elem, _ = webDriver.FindElement(selenium.ByID, "input-box-password")
 	elem.SendKeys("mypassword")
+	elem, _ = webDriver.FindElement(selenium.ByID, "input-box-email")
+	elem.SendKeys("example@dot.com")
 	elem, _ = webDriver.FindElement(selenium.ByCSSSelector, "#submit-button")
+	elem.Click()
 }

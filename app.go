@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/gorilla/mux"
-	"golang.org/x/crypto/bcrypt"
+	// "golang.org/x/crypto/bcrypt"
 	"log"
 	"net/http"
 	"text/template"
@@ -26,9 +26,9 @@ var tpl *template.Template
 
 func IndexView(w http.ResponseWriter, r *http.Request) {
 	rendered_data := pageData{
-		Title:   "Welcome to The Ticket Booker!",
-		Content: "Log-in to create a new booking!",
-	} // Think about removing this data structure, move it into template!
+		Title: "Welcome to The Tcket Booker!",
+		Content: "You are on main page. Please choose from below.",
+	}
 	w.Header().Add("Content Type", "text/html")
 	err := tpl.ExecuteTemplate(w, "main.gohtml", rendered_data)
 	if err != nil {
@@ -38,9 +38,23 @@ func IndexView(w http.ResponseWriter, r *http.Request) {
 	log.Println(r.URL.Path)
 }
 
+func RegisterView(w http.ResponseWriter, r *http.Request) {
+	rendered_data := pageData{
+		Title:   "Welcome to The Ticket Booker!",
+		Content: "Log-in to create a new booking!",
+	} // Think about removing this data structure, move it into template!
+	w.Header().Add("Content Type", "text/html")
+	err := tpl.ExecuteTemplate(w, "register.gohtml", rendered_data)
+	if err != nil {
+		log.Printf("Error encountered: %s", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+	}
+	log.Println(r.URL.Path)
+}
+
 func main() {
 	router := mux.NewRouter()
+	router.HandleFunc("/register", RegisterView)
 	router.HandleFunc("/", IndexView)
 	http.ListenAndServe(":8000", router)
-	log.Print("Http response: ", router)
 }
