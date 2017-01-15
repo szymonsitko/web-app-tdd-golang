@@ -1,6 +1,8 @@
 package webapp_test
 
 import (
+	"database/sql"
+	_ "github.com/go-sql-driver/mysql"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -32,4 +34,12 @@ func TestContentFromResponse(t *testing.T) {
 	if strings.Contains(string_response, "Ticket booker") != true {
 		log.Fatalf("Content not found in page body")
 	}
+}
+
+func TestDatabaseConnectionAndExecution(t *testing.T) {
+	db, err := sql.Open("mysql", "simon:irekdudek@tcp/web_go")
+	if err != nil {
+		log.Fatalf("Error db connection: %s", err)
+	}
+	defer db.Close()
 }
