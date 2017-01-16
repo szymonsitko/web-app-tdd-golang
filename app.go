@@ -1,10 +1,10 @@
 package main
 
 import (
-	"github.com/gorilla/mux"
-	"golang.org/x/crypto/bcrypt"
 	"database/sql"
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/gorilla/mux"
+	"golang.org/x/crypto/bcrypt"
 	"log"
 	"net/http"
 	"text/template"
@@ -47,17 +47,17 @@ func RegisterView(w http.ResponseWriter, r *http.Request) {
 	}
 	w.Header().Add("Content Type", "text/html")
 	if r.Method == http.MethodPost {
-			user := r.FormValue("username")
-			passwd, _ := bcrypt.GenerateFromPassword([]byte(r.FormValue("password")), bcrypt.DefaultCost)
-			email := r.FormValue("email")
-			_, err := db.Exec("INSERT INTO users (username, password, email) VALUES (?, ?, ?);", user, string(passwd), email)
-			if err != nil {
-				log.Println(err)
-				http.Error(w, "Internal server error", http.StatusInternalServerError)
-				return
-			}
-			http.Redirect(w, r, LOCALHOST + "/details", 302)
+		user := r.FormValue("username")
+		passwd, _ := bcrypt.GenerateFromPassword([]byte(r.FormValue("password")), bcrypt.DefaultCost)
+		email := r.FormValue("email")
+		_, err := db.Exec("INSERT INTO users (username, password, email) VALUES (?, ?, ?);", user, string(passwd), email)
+		if err != nil {
+			log.Println(err)
+			http.Error(w, "Internal server error", http.StatusInternalServerError)
+			return
 		}
+		http.Redirect(w, r, LOCALHOST+"/details", 302)
+	}
 	err := tpl.ExecuteTemplate(w, "register.gohtml", rendered_data)
 	if err != nil {
 		log.Printf("Error encountered: %s", err)

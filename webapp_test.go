@@ -52,4 +52,3 @@ func TestDatabaseInsertion(t *testing.T) {
 		log.Println("Error closing database %s", err)
 	}
 }
-

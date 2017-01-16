@@ -59,6 +59,6 @@ func TestFunctionalMainPage(t *testing.T) {
 		log.Fatalf("Content for user details page not found.")
 	}
 	// send user back to main page (with the choice prompt)
-	elem, _  = webDriver.FindElement(selenium.ByTagName, "a")
+	elem, _ = webDriver.FindElement(selenium.ByTagName, "a")
 	elem.Click()
 }
